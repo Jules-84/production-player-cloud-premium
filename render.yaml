@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: production-player-cloud-beta
+    name: name: production-player-cloud-premium
     runtime: node
     plan: free
     buildCommand: npm install
