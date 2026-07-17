@@ -1,1 +1,57 @@
+name: Publish Production Player PRO Update
 
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "New version, for example 5.8.1"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Set version
+        shell: pwsh
+        run: npm version "${{ inputs.version }}" --no-git-tag-version
+
+      - run: npm ci
+
+      - name: Build and publish Windows update
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx electron-builder --win --x64 --publish always
+
+  build-mac:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Set version
+        run: npm version "${{ inputs.version }}" --no-git-tag-version
+
+      - run: npm ci
+
+      - name: Build and publish Mac update
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+        run: npx electron-builder --mac --publish always
