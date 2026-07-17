@@ -1,0 +1,141 @@
+{
+  "name": "production-player-pro",
+  "version": "5.8.0",
+  "description": "Production Player PRO with complete automatic update controls",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build-mac": "electron-builder --mac",
+    "build-win": "electron-builder --win",
+    "build-win-x64": "electron-builder --win --x64",
+    "build": "electron-builder",
+    "build-all": "electron-builder --mac --win --x64",
+    "build-windows-installer": "electron-builder --win --x64",
+    "build-mac-installer": "electron-builder --mac",
+    "release-windows": "electron-builder --win --x64 --publish always",
+    "release-mac": "electron-builder --mac --publish always",
+    "release-all": "electron-builder --mac --win --x64 --publish always"
+  },
+  "devDependencies": {
+    "electron": "latest",
+    "electron-builder": "latest"
+  },
+  "build": {
+    "appId": "uk.julielinklater.productionplayerpro",
+    "productName": "Production Player PRO",
+    "files": [
+      "index.html",
+      "main.js",
+      "preload.js",
+      "package.json",
+      "build/**/*",
+      "!dist/**/*",
+      "!node_modules/.cache/**/*"
+    ],
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
+      "category": "public.app-category.music",
+      "icon": "build/icon.icns",
+      "artifactName": "Production Player PRO-${version}-${arch}.${ext}",
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico",
+      "artifactName": "Production Player PRO Setup ${version}.${ext}",
+      "publisherName": "Julie Linklater",
+      "legalTrademarks": "Production Player PRO",
+      "requestedExecutionLevel": "asInvoker",
+      "verifyUpdateCodeSignature": false
+    },
+    "nsis": {
+      "oneClick": true,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Production Player PRO",
+      "artifactName": "Production Player Setup ${version}.${ext}",
+      "perMachine": false,
+      "allowElevation": true,
+      "deleteAppDataOnUninstall": false,
+      "uninstallDisplayName": "Production Player PRO",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerHeaderIcon": "build/icon.ico",
+      "displayLanguageSelector": false
+    },
+    "copyright": "Copyright \u00a9 2026 Julie Linklater",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Jules-84",
+        "repo": "production-player-pro-releases",
+        "releaseType": "release"
+      }
+    ],
+    "asar": true,
+    "compression": "maximum",
+    "removePackageScripts": true,
+    "dmg": {
+      "title": "Production Player PRO ${version}",
+      "artifactName": "Production Player PRO-${version}-${arch}.${ext}",
+      "window": {
+        "width": 540,
+        "height": 380
+      },
+      "contents": [
+        {
+          "x": 150,
+          "y": 190,
+          "type": "file"
+        },
+        {
+          "x": 390,
+          "y": 190,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "category": "AudioVideo",
+      "synopsis": "Production cue playback software for schools"
+    }
+  },
+  "productName": "Production Player PRO",
+  "author": "Julie Linklater",
+  "dependencies": {
+    "ws": "^8.18.0",
+    "qrcode": "^1.5.4",
+    "electron-updater": "^6.6.2"
+  },
+  "license": "UNLICENSED",
+  "homepage": "https://github.com/Jules-84/production-player-pro-releases"
+}
